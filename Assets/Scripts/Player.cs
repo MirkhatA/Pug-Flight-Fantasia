@@ -11,13 +11,19 @@ public class Player : MonoBehaviour
     [SerializeField] private PhysicsMaterial2D normalMaterial;
     [SerializeField] private PhysicsMaterial2D bounceMaterial;
 
+    [Header("Sprites")]
+    [SerializeField] private Sprite idleSprite;
+    [SerializeField] private Sprite jumpSprite;
+
     private int jumpCount = 1;
     private Rigidbody2D _rigidbody;
     private bool _isGrounded = true;
+    private SpriteRenderer _spriteRenderer;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -27,6 +33,10 @@ public class Player : MonoBehaviour
         if (_isGrounded)
         {
             jumpCount = 1;
+            _spriteRenderer.sprite = idleSprite;
+        } else
+        {
+            _spriteRenderer.sprite = jumpSprite;
         }
     }
 
@@ -37,8 +47,18 @@ public class Player : MonoBehaviour
             var angleInRadians = angleInDegrees * Mathf.Deg2Rad;
             var horizontalVelocity = Mathf.Cos(angleInRadians) * direction;
             var verticalVelocity = Mathf.Sin(angleInRadians);
+            
             _rigidbody.velocity = new Vector2(horizontalVelocity, verticalVelocity) * jumpForce;
+            
             jumpCount--;
+            
+            if (direction == -1)
+            {
+                _spriteRenderer.flipX = true;
+            } else
+            {
+                _spriteRenderer.flipX = false;
+            }
         }
     }
 }
