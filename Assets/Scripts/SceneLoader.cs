@@ -14,6 +14,11 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene("MenuScene");
     }
 
+    public void LoadLeaderScene()
+    {
+        SceneManager.LoadScene("Leaderboard");
+    }
+
    /* IEnumerator LoadGameSceneCoroutine()
     {
         transitionAnim.SetTrigger("End");

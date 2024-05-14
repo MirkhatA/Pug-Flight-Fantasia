@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "155437955378",
+    "firebase_url": "https://pug-flight-fantasia-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "pug-flight-fantasia",
+    "storage_bucket": "pug-flight-fantasia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155437955378:android:5f85316a55b2d4c8eb3f2b",
+        "android_client_info": {
+          "package_name": "com.mirkekco.pugflightfantasia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0pVaLY1K4A86nRuwcQNlBNnKs3ziSXDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
