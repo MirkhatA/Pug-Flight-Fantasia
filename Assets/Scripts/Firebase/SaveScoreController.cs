@@ -21,6 +21,7 @@ public class SaveScoreController : MonoBehaviour
         if (!string.IsNullOrEmpty(_username.text) && _username.text.Length > 3)
         {
             _firebaseWrapper.SaveData(_username.text, _score.text);
+            SceneManager.LoadScene("MenuScene");
         }
     }
 

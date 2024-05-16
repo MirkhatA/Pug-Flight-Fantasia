@@ -12,6 +12,7 @@ Library: C:\mirkek\unity\Pug Flight Fantasia\Game\Pug Flight Fantasia\Temp\Burst
 --assembly-defines=Firebase.App;
 --assembly-defines=Firebase.Database;
 --assembly-defines=Firebase.Platform;
+--assembly-defines=Firebase.TaskExtension;
 --assembly-defines=Google.MiniJson;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;

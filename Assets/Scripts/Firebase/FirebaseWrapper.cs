@@ -3,13 +3,17 @@ using UnityEditor;
 using UnityEngine;
 using Firebase.Database;
 using System.Collections.Generic;
+using Firebase.Extensions;
 
 public class FirebaseWrapper : MonoBehaviour
 {
-
     private readonly string _firebasePlayerData = "users";
 
-    public List<PlayerData> playerData;
+    public Action<List<PlayerData>> OnDataLoaded;
+
+    public List<PlayerData> playerDataList = new List<PlayerData>();
+
+    public List<PlayerData> PlayerDataList => playerDataList;
 
     private void Start()
     {
@@ -20,7 +24,9 @@ public class FirebaseWrapper : MonoBehaviour
 
     public void LoadData()
     {
-        FirebaseDatabase.DefaultInstance.RootReference.Child(_firebasePlayerData).GetValueAsync().ContinueWith(task =>
+        playerDataList.Clear();
+
+        FirebaseDatabase.DefaultInstance.RootReference.Child(_firebasePlayerData).GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted)
             {
@@ -29,14 +35,24 @@ public class FirebaseWrapper : MonoBehaviour
             else if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
-                Debug.Log(snapshot.GetRawJsonValue());
+
+                foreach (var child in snapshot.Children)
+                {
+                    var player = JsonUtility.FromJson<PlayerData>(child.GetRawJsonValue());
+                    if (!playerDataList.Contains(player))
+                    {
+                        playerDataList.Add(player);
+                    }
+                }
             }
+
+            OnDataLoaded?.Invoke(playerDataList);
         });
     }
 
     public void SaveData(string username, string score)
     {
-        FirebaseDatabase.DefaultInstance.RootReference.Child(_firebasePlayerData).GetValueAsync().ContinueWith(task =>
+        FirebaseDatabase.DefaultInstance.RootReference.Child(_firebasePlayerData).GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted)
             {
@@ -50,16 +66,16 @@ public class FirebaseWrapper : MonoBehaviour
                 {
                     var player = JsonUtility.FromJson<PlayerData>(item.GetRawJsonValue());
 
-                    if (!playerData.Contains(player))
+                    if (!playerDataList.Contains(player))
                     {
-                        playerData.Add(player);
+                        playerDataList.Add(player);
                     }
                 }
 
             }
         });
 
-        FirebaseDatabase.DefaultInstance.RootReference.Child(_firebasePlayerData).Child(username).SetRawJsonValueAsync(JsonUtility.ToJson(new PlayerData(score)));
+        FirebaseDatabase.DefaultInstance.RootReference.Child(_firebasePlayerData).Child(username).SetRawJsonValueAsync(JsonUtility.ToJson(new PlayerData(score, username)));
 
     }
 
@@ -67,36 +83,12 @@ public class FirebaseWrapper : MonoBehaviour
     public class PlayerData
     {
         public string time;
+        public string playerName;
 
-        public PlayerData(string time)
+        public PlayerData(string time, string playerName)
         {
             this.time = time;
-        }
-    }
-}
-
-[CustomEditor(typeof(FirebaseWrapper))]
-public class FirebaseData : Editor
-{
-    FirebaseWrapper firebaseWrapper;
-
-    private void OnEnable()
-    {
-        firebaseWrapper = (FirebaseWrapper)target;
-    }
-
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        if (GUILayout.Button("Load Data"))
-        {
-            firebaseWrapper.LoadData();
-        }
-
-        if (GUILayout.Button("Save Data"))
-        {
-            //firebaseWrapper.SaveData();
+            this.playerName = playerName;
         }
     }
 }
