@@ -252,7 +252,7 @@ TextureImporter:
       name: UI-buttons_6
       rect:
         serializedVersion: 2
-        x: 32
+        x: 16
         y: 0
         width: 16
         height: 16
@@ -265,6 +265,27 @@ TextureImporter:
       bones: []
       spriteID: c073a72a96832cb4f8a39b10fa3839a4
       internalID: -205901111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI-buttons_7
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac83a552caa720148b1f93a01429119b
+      internalID: 1009678487
       vertices: []
       indices: 
       edges: []
@@ -287,6 +308,7 @@ TextureImporter:
       UI-buttons_4: 380948745
       UI-buttons_5: 1927595586
       UI-buttons_6: -205901111
+      UI-buttons_7: 1009678487
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
